@@ -31,8 +31,11 @@
         let html5QrCode = new Html5Qrcode("reader");
         Html5Qrcode.getCameras().then(cameras => {
             if (cameras.length > 0) {
+                let backCamera = cameras.find(camera => camera.label.toLowerCase().includes("back"));
+                let cameraId = backCamera ? backCamera.id : cameras[0].id;
+                
                 html5QrCode.start(
-                    cameras[0].id, 
+                    cameraId, 
                     { fps: 10, qrbox: 250 }, 
                     onScanSuccess, 
                     onScanFailure
@@ -42,3 +45,4 @@
     </script>
 </body>
 </html>
+
