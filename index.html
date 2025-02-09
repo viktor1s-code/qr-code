@@ -23,10 +23,12 @@
     <script>
         let html5QrCode;
         let selectedCameraId;
+        let beepSound = new Audio("https://www.soundjay.com/button/beep-07.wav"); // Beispiel-Beep-Ton
 
         function onScanSuccess(decodedText, decodedResult) {
             document.getElementById('result').innerText = "Erkannt: " + decodedText;
             console.log(decodedResult);
+            beepSound.play(); // Piepton abspielen
         }
         
         function onScanFailure(error) {
