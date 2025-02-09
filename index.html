@@ -15,10 +15,15 @@
 </head>
 <body>
     <h2>QR-Code Scanner</h2>
+    <select id="cameraSelect"></select>
+    <button onclick="startScanner()">Start Scanner</button>
     <div id="reader"></div>
     <p id="result">Ergebnis: Warten auf Scan...</p>
     
     <script>
+        let html5QrCode;
+        let selectedCameraId;
+
         function onScanSuccess(decodedText, decodedResult) {
             document.getElementById('result').innerText = "Erkannt: " + decodedText;
             console.log(decodedResult);
@@ -27,22 +32,31 @@
         function onScanFailure(error) {
             console.warn(`Scan-Fehler: ${error}`);
         }
-        
-        let html5QrCode = new Html5Qrcode("reader");
+
         Html5Qrcode.getCameras().then(cameras => {
             if (cameras.length > 0) {
-                let backCamera = cameras.find(camera => camera.label.toLowerCase().includes("back"));
-                let cameraId = backCamera ? backCamera.id : cameras[0].id;
-                
-                html5QrCode.start(
-                    cameraId, 
-                    { fps: 10, qrbox: 250 }, 
-                    onScanSuccess, 
-                    onScanFailure
-                );
+                let select = document.getElementById("cameraSelect");
+                cameras.forEach(camera => {
+                    let option = document.createElement("option");
+                    option.value = camera.id;
+                    option.text = camera.label || `Kamera ${select.length + 1}`;
+                    select.appendChild(option);
+                });
+                selectedCameraId = select.value;
             }
         }).catch(err => console.error("Kamera-Fehler: ", err));
+
+        function startScanner() {
+            if (html5QrCode) html5QrCode.stop();
+            let cameraId = document.getElementById("cameraSelect").value;
+            html5QrCode = new Html5Qrcode("reader");
+            html5QrCode.start(
+                cameraId,
+                { fps: 10, qrbox: 250 },
+                onScanSuccess,
+                onScanFailure
+            );
+        }
     </script>
 </body>
 </html>
-
