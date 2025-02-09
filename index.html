@@ -20,15 +20,17 @@
     <div id="reader"></div>
     <p id="result">Ergebnis: Warten auf Scan...</p>
     
+    <audio id="beepSound" src="beep.mp3" preload="auto"></audio>
+    
     <script>
         let html5QrCode;
         let selectedCameraId;
-        let beepSound = new Audio("https://www.soundjay.com/button/beep-07.wav"); // Beispiel-Beep-Ton
+        let beepSound = document.getElementById("beepSound");
 
         function onScanSuccess(decodedText, decodedResult) {
             document.getElementById('result').innerText = "Erkannt: " + decodedText;
             console.log(decodedResult);
-            beepSound.play(); // Piepton abspielen
+            beepSound.play().catch(err => console.warn("Audio-Fehler: ", err));
         }
         
         function onScanFailure(error) {
@@ -52,6 +54,7 @@
             if (html5QrCode) html5QrCode.stop();
             let cameraId = document.getElementById("cameraSelect").value;
             html5QrCode = new Html5Qrcode("reader");
+            beepSound.play().catch(() => console.log("Audio freigeschaltet")); // Audio-Start für Autoplay-Freigabe
             html5QrCode.start(
                 cameraId,
                 { fps: 10, qrbox: 250 },
