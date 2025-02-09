@@ -26,11 +26,24 @@
         let html5QrCode;
         let selectedCameraId;
         let beepSound = document.getElementById("beepSound");
+        const googleScriptUrl = "https://docs.google.com/spreadsheets/d/1tvDW4htV9DzXwd7iEs3UxzbXbxcnzgt4-VdX9QwvQAM/";
 
         function onScanSuccess(decodedText, decodedResult) {
             document.getElementById('result').innerText = "Erkannt: " + decodedText;
             console.log(decodedResult);
             beepSound.play().catch(err => console.warn("Audio-Fehler: ", err));
+            sendToGoogleSheet(decodedText);
+        }
+        
+        function sendToGoogleSheet(qrCode) {
+            fetch(googleScriptUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ qrCode })
+            })
+            .then(response => response.text())
+            .then(data => console.log("Gespeichert: ", data))
+            .catch(error => console.error("Fehler beim Speichern: ", error));
         }
         
         function onScanFailure(error) {
