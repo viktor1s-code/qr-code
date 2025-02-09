@@ -36,14 +36,16 @@
         }
         
         function sendToGoogleSheet(qrCode) {
-            fetch(googleScriptUrl, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ qrCode })
+            fetch('https://script.google.com/macros/s/AKfycbxEXAMPLE/exec', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data),
+                mode: 'no-cors'  // Dies könnte den CORS-Fehler umgehen, aber es gibt keine Antwort zurück
             })
-            .then(response => response.text())
-            .then(data => console.log("Gespeichert: ", data))
-            .catch(error => console.error("Fehler beim Speichern: ", error));
+            .then(response => console.log(response))
+            .catch(error => console.error('Fehler:', error));
         }
         
         function onScanFailure(error) {
