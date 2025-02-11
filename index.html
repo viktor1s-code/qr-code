@@ -28,13 +28,6 @@
         let beepSound = document.getElementById("beepSound");
         const googleScriptUrl = "https://script.google.com/macros/s/AKfycbxuRqpyqzsniSIKHK8pm-3PFcfaz0FMUp622bFtv1ZT3lMwcwJe6cMxqGd-eiFa2qLf/exec";
 
-        function onScanSuccess(decodedText, decodedResult) {
-            document.getElementById('result').innerText = "Erkannt: " + decodedText;
-            console.log(decodedResult);
-            beepSound.play().catch(err => console.warn("Audio-Fehler: ", err));
-            sendDataToGoogleSheets(decodedText);
-        }
-
         function sendDataToGoogleSheets(qrCode) {
             console.log("Sende Daten:", qrCode); // Debug-Log
             
@@ -47,6 +40,15 @@
             .then(data => console.log("Antwort von Google Sheets:", data))
             .catch(error => console.error("Fehler:", error));
         }
+        
+        function onScanSuccess(decodedText, decodedResult) {
+            document.getElementById('result').innerText = "Erkannt: " + decodedText;
+            console.log(decodedResult);
+            beepSound.play().catch(err => console.warn("Audio-Fehler: ", err));
+            sendDataToGoogleSheets(decodedText);
+        }
+
+
         
         function onScanFailure(error) {
             //console.warn(`Scan-Fehler: ${error}`);
