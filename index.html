@@ -26,7 +26,7 @@
         let html5QrCode;
         let selectedCameraId;
         let beepSound = document.getElementById("beepSound");
-        const googleScriptUrl = "https://script.google.com/macros/s/AKfycbwqLNxM2jNXpOHSuxJSQ7AyWjZaGvcLqKJyphMkhpl3g_bsD1Yo892Ee0csWzWOZqe-/exec";
+        const googleScriptUrl = "https://script.google.com/macros/s/AKfycby5orkFO0xebUZz3nCsHxBo-z-u7L9jJFuWPB0jwHagjQFy4cU173XJqXcfa2gqwdHPZQ/execc";
 
         function onScanSuccess(decodedText, decodedResult) {
             document.getElementById('result').innerText = "Erkannt: " + decodedText;
@@ -34,18 +34,16 @@
             beepSound.play().catch(err => console.warn("Audio-Fehler: ", err));
             sendToGoogleSheet(decodedText);
         }
-        
-        function sendToGoogleSheet(qrCode) {
-            fetch('https://script.google.com/macros/s/AKfycbxEXAMPLE/exec', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+
+        function sendDataToGoogleSheets(qrCode) {
+            fetch("https://script.google.com/macros/s/AKfycby5orkFO0xebUZz3nCsHxBo-z-u7L9jJFuWPB0jwHagjQFy4cU173XJqXcfa2gqwdHPZQ/exec", {
+                method: "POST",
                 body: JSON.stringify(data),
-                mode: 'no-cors'  // Dies könnte den CORS-Fehler umgehen, aber es gibt keine Antwort zurück
+                headers: { "Content-Type": "application/json" }
             })
-            .then(response => console.log(response))
-            .catch(error => console.error('Fehler:', error));
+            .then(response => response.text())
+            .then(data => console.log("Antwort von Google Sheets:", data))
+            .catch(error => console.error("Fehler:", error));
         }
         
         function onScanFailure(error) {
