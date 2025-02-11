@@ -26,12 +26,12 @@
         let html5QrCode;
         let selectedCameraId;
         let beepSound = document.getElementById("beepSound");
-        const googleScriptUrl = "https://script.google.com/macros/s/AKfycbzGR09FgMaijR8xmm-6UzfByybv0WJav2XhB3TqGM0fHssxqIeQvHA7D8NOjNaU6p3Wkw/exec";
+        const googleScriptUrl = "https://script.google.com/macros/s/AKfycbxx9pjQBW8sLCoMRRf2Jesvz2JVNbi9QPGky1dbDLs_8LyibVXrKnSFLGaYx0vuu3ExDg/exec";
 
         function sendDataToGoogleSheets(qrCode) {
             console.log("Sende Daten:", qrCode); // Debug-Log
             
-            fetch("https://script.google.com/macros/s/AKfycbzGR09FgMaijR8xmm-6UzfByybv0WJav2XhB3TqGM0fHssxqIeQvHA7D8NOjNaU6p3Wkw/exec", {
+            fetch("https://script.google.com/macros/s/AKfycbxx9pjQBW8sLCoMRRf2Jesvz2JVNbi9QPGky1dbDLs_8LyibVXrKnSFLGaYx0vuu3ExDg/exec", {
                 method: "POST",
                 body: JSON.stringify({ wert: qrCode }),
                 headers: { "Content-Type": "application/json" }
