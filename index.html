@@ -35,6 +35,7 @@
             sendToGoogleSheet(decodedText);
         }
         function sendDataToGoogleSheets(qrCode) {
+            console.log("Sende Daten:", value); // Debug-Log
             fetch("https://script.google.com/macros/s/AKfycbxuRqpyqzsniSIKHK8pm-3PFcfaz0FMUp622bFtv1ZT3lMwcwJe6cMxqGd-eiFa2qLf/exec", {
                 method: "POST",
                 body: JSON.stringify({ wert: Math.random() * 100 }),
