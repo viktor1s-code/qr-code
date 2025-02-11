@@ -34,11 +34,10 @@
             beepSound.play().catch(err => console.warn("Audio-Fehler: ", err));
             sendToGoogleSheet(decodedText);
         }
-
         function sendDataToGoogleSheets(qrCode) {
             fetch("https://script.google.com/macros/s/AKfycbxuRqpyqzsniSIKHK8pm-3PFcfaz0FMUp622bFtv1ZT3lMwcwJe6cMxqGd-eiFa2qLf/exec", {
                 method: "POST",
-                body: JSON.stringify(data),
+                body: JSON.stringify({ wert: Math.random() * 100 }),
                 headers: { "Content-Type": "application/json" }
             })
             .then(response => response.text())
